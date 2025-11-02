@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="game off"
+run/main_scene="uid://7t16ujoj1x52"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
