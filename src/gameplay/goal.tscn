@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvn67ta1tkw8l"]
+
+[ext_resource type="Texture2D" uid="uid://bkpwn1am6iaur" path="res://assets/textures/texture_end.png" id="1_8tq3u"]
+[ext_resource type="Script" uid="uid://cav7w0c5vcacd" path="res://src/gameplay/goal.gd" id="1_t8vge"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8tq3u"]
+radius = 7.0
+
+[sub_resource type="Animation" id="Animation_ofr3t"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.56666666, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -6), Vector2(0, 7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_aynik"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_21kih"]
+_data = {
+&"RESET": SubResource("Animation_aynik"),
+&"idle": SubResource("Animation_ofr3t")
+}
+
+[sub_resource type="Gradient" id="Gradient_ofr3t"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_aynik"]
+gradient = SubResource("Gradient_ofr3t")
+
+[node name="Goal" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_t8vge")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8tq3u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8tq3u")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_21kih")
+}
+autoplay = "idle"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+texture = SubResource("GradientTexture2D_aynik")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

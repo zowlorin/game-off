@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cd5uvwfnr256p"]
+
+[ext_resource type="Texture2D" uid="uid://cj4nx560dkhjk" path="res://icon.svg" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://dpaj2o50s223k" path="res://src/player/player.gd" id="1_rkbax"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kqu6x"]
+height = 25.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_rkbax")
+MOVE_SPEED = 1000.0
+MOVE_ACCEL = 60000.0
+MOVE_DECEL = 60000.0
+JUMP_HEIGHT = 10.0
+FALL_TIME = 1.0
+DASH_SPEED = 500.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_kqu6x")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.225)
+texture = ExtResource("1_oul6g")
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="JumpQueueTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[connection signal="timeout" from="JumpQueueTimer" to="." method="_on_jump_queue_timer_timeout"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
